@@ -31,7 +31,19 @@ namespace DataStuctureLab
                         MergeKSortedArrays.Run();
                         break;
                     case "4":
+                        HeapifyArray.Run();
+                        break;
+                    case "5":
                         Primes.Run();
+                        break;
+                    case "6":
+                        CreateHash.Run();
+                        break;
+                    case "7":
+                        Graph.Run();
+                        break;
+                    case "8":
+                        GraphDijkstra.Run();
                         break;
                     default:
                         Console.WriteLine("Select Correct Option");
@@ -48,7 +60,11 @@ namespace DataStuctureLab
             Console.WriteLine("1. MinHeap");
             Console.WriteLine("2. AVL Tree");
             Console.WriteLine("3. Merge K Sorted Arrays");
-            Console.WriteLine("4. Is Prime");
+            Console.WriteLine("4. Array Heapify");
+            Console.WriteLine("5. Is Prime");
+            Console.WriteLine("6. Hash"); 
+            Console.WriteLine("7. Graph");
+            Console.WriteLine("8. GraphDijkstra");
             Console.WriteLine("0. Exit");
             Console.WriteLine();
         }

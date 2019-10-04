@@ -11,16 +11,16 @@ namespace DataStuctureLab
             Console.WriteLine("Min Heap - complete logic");
 
             MinHeap minHeap = new MinHeap(5);
-            minHeap.Insert(3, 0);
-            minHeap.Insert(1, 0);
-            minHeap.Insert(10, 0);
-            minHeap.Insert(0, 0);
-            minHeap.Insert(12, 0);
+            minHeap.Insert(3);
+            minHeap.Insert(1);
+            minHeap.Insert(10);
+            minHeap.Insert(0);
+            minHeap.Insert(12);
             minHeap.Print();
 
             var min = minHeap.ExtractMin();
             Console.WriteLine(min.Data);
-            minHeap.Insert(13, 0);
+            minHeap.Insert(13);
             minHeap.Print();
 
             min = minHeap.ExtractMin();
@@ -37,7 +37,7 @@ namespace DataStuctureLab
             this.position = -1;
         }
 
-        public void Insert(int data, int listNumber)
+        public void Insert(int data, int listNumber = 0)
         {
             if (this.position < 0)
             {
@@ -114,11 +114,14 @@ namespace DataStuctureLab
             return min;
         }
 
-        public void Print()
+        public void Print(bool includeListNumber = false)
         {
             for (int i = 0; i <= this.position; i++)
             {
-                Console.Write("[{0},{1}] ", this.minHeap[i].Data, this.minHeap[i].ListNumber);
+                if(includeListNumber)
+                    Console.Write("[{0},{1}] ", this.minHeap[i].Data, this.minHeap[i].ListNumber);
+                else
+                    Console.Write("[{0}] ", this.minHeap[i].Data);
             }
             Console.WriteLine();
         }
