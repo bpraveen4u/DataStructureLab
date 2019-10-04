@@ -45,6 +45,15 @@ namespace DataStuctureLab
                     case "8":
                         GraphDijkstra.Run();
                         break;
+                    case "9":
+                        SortAlgorithms.Run(SortAlgorithm.Quick);
+                        break;
+                    case "10":
+                        SortAlgorithms.Run(SortAlgorithm.Merge);
+                        break;
+                    case "11":
+                        HuffmanCoding.Run();
+                        break;
                     default:
                         Console.WriteLine("Select Correct Option");
                         DisplayOptions();
@@ -65,6 +74,9 @@ namespace DataStuctureLab
             Console.WriteLine("6. Hash"); 
             Console.WriteLine("7. Graph");
             Console.WriteLine("8. GraphDijkstra");
+            Console.WriteLine("9. Quick Sort");
+            Console.WriteLine("10. Merge Sort");
+            Console.WriteLine("11. HuffmanCoding");
             Console.WriteLine("0. Exit");
             Console.WriteLine();
         }

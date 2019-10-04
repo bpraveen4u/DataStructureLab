@@ -1,10 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace DataStuctureLab
 {
-    public class MinHeap
+
+    // comparator class helps to compare the node 
+    // on the basis of one of its attribute. 
+    // Here we will be compared 
+    // on the basis of data values of the nodes. 
+    public class MyComparator<T> : IComparer<T> where T:IData
+    {
+        public int Compare(T x, T y)
+        {
+            return x.Data - y.Data;
+        }
+    }
+    public class MinHeapGeneric<T> where T: IData
     {
         public static void Run()
         {
@@ -28,24 +42,24 @@ namespace DataStuctureLab
             minHeap.Print();
         }
 
-        HeapNode[] minHeap;
+        HeapNode<T>[] minHeap;
         int position;
 
-        public MinHeap(int size)
+        public MinHeapGeneric(int size)
         {
-            this.minHeap = new HeapNode[size];
+            this.minHeap = new HeapNode<T>[size];
             this.position = -1;
         }
 
-        public void Insert(int data, int listNumber = 0)
+        public void Insert(T data)
         {
             if (this.position < 0)
             {
-                this.minHeap[++this.position] = new HeapNode(data, listNumber);
+                this.minHeap[++this.position] = new HeapNode<T>(data);
             }
             else
             {
-                this.minHeap[++this.position] = new HeapNode(data, listNumber);
+                this.minHeap[++this.position] = new HeapNode<T>(data);
                 this.BubbleUp();
             }
         }
@@ -54,7 +68,7 @@ namespace DataStuctureLab
         {
             var pos = this.position;
             var parent = (pos - 1) / 2;
-            while (pos > 0 && this.minHeap[parent].Data > this.minHeap[pos].Data)
+            while (pos > 0 && (new MyComparator<HeapNode<T>>().Compare(this.minHeap[parent], this.minHeap[pos])) > 0)
             {
                 //swap
                 HeapNode node = this.minHeap[parent];
@@ -120,7 +134,7 @@ namespace DataStuctureLab
         {
             for (int i = 0; i <= this.position; i++)
             {
-                if(includeListNumber)
+                if (includeListNumber)
                     Console.Write("[{0},{1}] ", this.minHeap[i].Data, this.minHeap[i].ListNumber);
                 else
                     Console.Write("[{0}] ", this.minHeap[i].Data);
@@ -128,14 +142,17 @@ namespace DataStuctureLab
             Console.WriteLine();
         }
     }
-    public class HeapNode
+
+    public interface IData
     {
-        public int Data { get; set; }
-        public int ListNumber { get; set; }
-        public HeapNode(int data, int listNumber)
+        int Data { get; set; }
+    }
+    public class HeapNode<T> where T : IData
+    {
+        public T Data { get; set; }
+        public HeapNode(T data)
         {
             this.Data = data;
-            this.ListNumber = listNumber;
         }
     }
 }
