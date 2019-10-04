@@ -4,9 +4,9 @@ using System.Text;
 
 namespace DataStuctureLab
 {
-    class HuffmanNode
+    public class HuffmanNode : IData
     {
-        public int data;
+        public int data { get; set; }
         public char c;
 
         public HuffmanNode left;
@@ -27,23 +27,23 @@ namespace DataStuctureLab
 
         private static void Encode(char[] charArray, int[] charfreq, int n)
         {
-            MinHeap minHeap = new MinHeap(n);
+            MinHeapGeneric minHeap = new MinHeapGeneric(n);
             for (int i = 0; i < n; i++)
             {
+                var node = new HuffmanNode();
+                node.c = charArray[i];
+                node.data = charfreq[i];
+
+                node.left = null;
+                node.right = null;
 
                 // creating a Huffman node object 
                 // and add it to the priority queue. 
-                HuffmanNode hn = new HuffmanNode();
-
-                hn.c = charArray[i];
-                hn.data = charfreq[i];
-
-                hn.left = null;
-                hn.right = null;
+                HeapNode<HuffmanNode> hn = new HeapNode<HuffmanNode>(node);
 
                 // add functions adds 
                 // the huffman node to the queue. 
-                minHeap.Insert(hn.data, i);
+                minHeap.Insert(hn);
             }
 
             // create a root node 
@@ -61,25 +61,25 @@ namespace DataStuctureLab
                 // second min extarct. 
                 var y = minHeap.ExtractMin();
 
-                // new node f which is equal 
-                HuffmanNode f = new HuffmanNode();
+                var node = new HuffmanNode();
 
                 // to the sum of the frequency of the two nodes 
                 // assigning values to the f node. 
-                f.data = x.Data + y.Data;
-                f.c = '-';
-
+                node.data = x.Data.data + y.Data.data;
+                node.c = 'c';
                 // first extracted node as left child. 
-                f.left = new HuffmanNode() { data = x.Data, c = charArray[x.ListNumber] };
-
+                node.left = x.Data;
                 // second extracted node as the right child. 
-                f.right = new HuffmanNode() { data = y.Data, c = charArray[y.ListNumber] }; ;
+                node.right = y.Data;
+
+                // new node f which is equal 
+                HeapNode<HuffmanNode> f = new HeapNode<HuffmanNode>(node);
 
                 // marking the f node as the root node. 
-                root = f;
+                root = node;
 
                 // add this node to the priority-queue. 
-                minHeap.Insert(f.data);
+                minHeap.Insert(f);
             }
 
             // print the codes by traversing the tree 

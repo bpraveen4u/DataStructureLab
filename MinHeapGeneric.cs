@@ -11,55 +11,55 @@ namespace DataStuctureLab
     // on the basis of one of its attribute. 
     // Here we will be compared 
     // on the basis of data values of the nodes. 
-    public class MyComparator<T> : IComparer<T> where T:IData
+    public class MyComparator : IComparer<HeapNode<HuffmanNode>>
     {
-        public int Compare(T x, T y)
+        public int Compare(HeapNode<HuffmanNode> x, HeapNode<HuffmanNode> y)
         {
-            return x.Data - y.Data;
+            return x.Data.data - y.Data.data;
         }
     }
-    public class MinHeapGeneric<T> where T: IData
+    public class MinHeapGeneric
     {
-        public static void Run()
+        private static void Run()
         {
-            Console.WriteLine("Min Heap - complete logic");
+            ////Console.WriteLine("Min Heap - complete logic");
 
-            MinHeap minHeap = new MinHeap(5);
-            minHeap.Insert(3);
-            minHeap.Insert(1);
-            minHeap.Insert(10);
-            minHeap.Insert(0);
-            minHeap.Insert(12);
-            minHeap.Print();
+            ////MinHeapGeneric minHeap = new MinHeapGeneric(5);
+            ////minHeap.Insert(3);
+            ////minHeap.Insert(1);
+            ////minHeap.Insert(10);
+            ////minHeap.Insert(0);
+            ////minHeap.Insert(12);
+            ////minHeap.Print();
 
-            var min = minHeap.ExtractMin();
-            Console.WriteLine(min.Data);
-            minHeap.Insert(13);
-            minHeap.Print();
+            ////var min = minHeap.ExtractMin();
+            ////Console.WriteLine(min.Data);
+            ////minHeap.Insert(13);
+            ////minHeap.Print();
 
-            min = minHeap.ExtractMin();
-            Console.WriteLine(min.Data);
-            minHeap.Print();
+            ////min = minHeap.ExtractMin();
+            ////Console.WriteLine(min.Data);
+            ////minHeap.Print();
         }
 
-        HeapNode<T>[] minHeap;
+        HeapNode<HuffmanNode>[] minHeap;
         int position;
 
         public MinHeapGeneric(int size)
         {
-            this.minHeap = new HeapNode<T>[size];
+            this.minHeap = new HeapNode<HuffmanNode>[size];
             this.position = -1;
         }
 
-        public void Insert(T data)
+        public void Insert(HeapNode<HuffmanNode> data)
         {
             if (this.position < 0)
             {
-                this.minHeap[++this.position] = new HeapNode<T>(data);
+                this.minHeap[++this.position] = data;
             }
             else
             {
-                this.minHeap[++this.position] = new HeapNode<T>(data);
+                this.minHeap[++this.position] = data;
                 this.BubbleUp();
             }
         }
@@ -68,10 +68,10 @@ namespace DataStuctureLab
         {
             var pos = this.position;
             var parent = (pos - 1) / 2;
-            while (pos > 0 && (new MyComparator<HeapNode<T>>().Compare(this.minHeap[parent], this.minHeap[pos])) > 0)
+            while (pos > 0 && (new MyComparator().Compare(this.minHeap[parent], this.minHeap[pos])) > 0)
             {
                 //swap
-                HeapNode node = this.minHeap[parent];
+                HeapNode<HuffmanNode> node = this.minHeap[parent];
                 this.minHeap[parent] = this.minHeap[pos];
                 this.minHeap[pos] = node;
                 pos = parent;
@@ -82,7 +82,7 @@ namespace DataStuctureLab
         private void Swap(int a, int b)
         {
             //  System.out.println("swappinh" + mH[a] + " and " + mH[b]);
-            HeapNode temp = this.minHeap[a];
+            HeapNode<HuffmanNode> temp = this.minHeap[a];
             this.minHeap[a] = this.minHeap[b];
             this.minHeap[b] = temp;
         }
@@ -92,13 +92,13 @@ namespace DataStuctureLab
             int smallest = k;
             var left = (2 * k) + 1;
             var right = (2 * k) + 2;
-            if (((left <= this.position) && (this.minHeap[smallest].Data > this.minHeap[left].Data)))
+            if (((left <= this.position) && (new MyComparator().Compare(this.minHeap[smallest], this.minHeap[left])) > 0))
             {
                 //left child
                 smallest = left;
             }
 
-            if (((right <= this.position) && (this.minHeap[smallest].Data > this.minHeap[right].Data)))
+            if (((right <= this.position) && (new MyComparator().Compare(this.minHeap[smallest],  this.minHeap[right])) > 0))
             {
                 //right child
                 smallest = right;
@@ -112,7 +112,7 @@ namespace DataStuctureLab
                 //  call recursively
             }
         }
-        public HeapNode ExtractMin()
+        public HeapNode<HuffmanNode> ExtractMin()
         {
             //return minHeap[0];
             var min = minHeap[0];
@@ -129,25 +129,13 @@ namespace DataStuctureLab
         }
 
         public int Size => this.position + 1;
-
-        public void Print(bool includeListNumber = false)
-        {
-            for (int i = 0; i <= this.position; i++)
-            {
-                if (includeListNumber)
-                    Console.Write("[{0},{1}] ", this.minHeap[i].Data, this.minHeap[i].ListNumber);
-                else
-                    Console.Write("[{0}] ", this.minHeap[i].Data);
-            }
-            Console.WriteLine();
-        }
     }
 
     public interface IData
     {
-        int Data { get; set; }
+        int data { get; set; }
     }
-    public class HeapNode<T> where T : IData
+    public class HeapNode<T> where T: IData
     {
         public T Data { get; set; }
         public HeapNode(T data)
